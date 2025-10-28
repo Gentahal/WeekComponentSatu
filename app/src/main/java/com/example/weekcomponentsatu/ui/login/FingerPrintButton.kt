@@ -1,9 +1,10 @@
 package com.example.weekcomponentsatu.ui.login
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -18,31 +19,43 @@ import com.example.weekcomponentsatu.R
 import com.example.weekcomponentsatu.ui.theme.ColorButtonRegister
 
 @Composable
-fun FingerPrintButton(
-    onClick: () -> Unit // aksi ketika tombol ditekan
-) {
-    // Box digunakan untuk menempatkan satu komponen di tengah
+fun FingerPrintStackExample() {
+    /**
+     * 🧱 Box = stacking layout.
+     * Semua elemen di dalam Box akan ditumpuk dari atas ke bawah.
+     * Elemen yang ditulis belakangan akan berada di lapisan paling atas.
+     */
     Box(
         modifier = Modifier
-            .size(80.dp) // ukuran kotak
-            .clip(RoundedCornerShape(16.dp)) // ujung kotak melengkung
-            .background(ColorButtonRegister) // warna tombol
-            .clickable { onClick() }, // aksi klik
-        contentAlignment = Alignment.Center // isi di tengah
+            .size(100.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(ColorButtonRegister),
+        contentAlignment = Alignment.Center // menaruh konten utama (ikon) di tengah
     ) {
-        // Icon fingerprint di tengah box
+        // ✅ 1. Lapisan pertama → background sudah ada di Box (warna oranye)
+
+        // ✅ 2. Lapisan kedua → icon fingerprint di tengah
         Icon(
             painter = painterResource(id = R.drawable.fingerprint),
             contentDescription = "Fingerprint Icon",
-            tint = Color.White, // warna putih
+            tint = Color.White,
             modifier = Modifier.size(48.dp)
+        )
+
+        // ✅ 3. Lapisan ketiga → lingkaran kecil di pojok kanan atas (badge notifikasi)
+        Box(
+            modifier = Modifier
+                .size(20.dp)
+                .clip(CircleShape)
+                .background(Color.Red)
+                .align(Alignment.TopEnd) // posisikan di kanan atas
+                .offset(x = (-6).dp, y = 6.dp) // sedikit ke dalam agar tidak keluar kotak
         )
     }
 }
 
-// Preview untuk menampilkan tampilan tombol di Android Studio
 @Preview(showBackground = true)
 @Composable
-private fun FingerPrintButtonPreview() {
-    FingerPrintButton(onClick = {})
+fun FingerPrintStackExamplePreview() {
+    FingerPrintStackExample()
 }
